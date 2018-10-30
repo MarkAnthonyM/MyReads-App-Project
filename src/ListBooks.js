@@ -32,6 +32,38 @@ class ListBooks extends Component {
                 </ol>
               </div>
             </div>
+            <div className='bookshelf'>
+              <h2 className='bookshelf-title'>Want to Read</h2>
+              <div className='bookshelf-books'>
+                <ol className='books-grid'>
+                  {this.props.books.map((book) => (
+                    <li key={book.id}>
+                      <div className='book'>
+                        <div className='book-top'>
+                          <div className='book-cover' style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})`}}></div>
+                        </div>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+            <div className='bookshelf'>
+              <h2 className='bookshelf-title'>Read</h2>
+              <div className='bookshelf-books'>
+                <ol className='books-grid'>
+                  {this.props.books.map((book) => (
+                    <li key={book.id}>
+                      <div className='book'>
+                        <div className='book-top'>
+                          <div className='book-cover' style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})`}}></div>
+                        </div>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
           </div>
         </div>
       </div>
