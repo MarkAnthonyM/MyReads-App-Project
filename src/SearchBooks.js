@@ -9,12 +9,12 @@ class SearchBooks extends Component {
   }
 
   updateQuery(query) {
-    this.setState({ query: query.trim() }, this.searchDatabase)
+    this.setState({ query: query }, this.searchDatabase)
   }
 
   searchDatabase() {
     if (this.state.query) {
-      BooksAPI.search(this.state.query).then((books) => {
+      BooksAPI.search(this.state.query.trim()).then((books) => {
         if (books === undefined || books.error) {
           this.setState({ searchBooks: [] })
         } else {
