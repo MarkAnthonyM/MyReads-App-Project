@@ -16,6 +16,15 @@ class BooksApp extends Component {
     })
   }
 
+  updateBook = (book, shelf) => {
+    BooksAPI.update(book, shelf).then((updatedBook) => {
+      book.shelf = shelf
+      this.setState((prevState) => ({
+        books: prevState.books.filter(stateItem => stateItem.id !== book.id).concat([ book ])
+      }))
+    })
+  }
+
   render() {
     const { books } = this.state
 
@@ -29,14 +38,17 @@ class BooksApp extends Component {
             <div className='list-books-content'>
               <div>
                 <ListBooks
+                  updateBook={this.updateBook}
                   books={books.filter(book => book.shelf === 'currentlyReading')}
                   name='Currently Reading'
                 />
                 <ListBooks
+                  updateBook={this.updateBook}
                   books={books.filter(book => book.shelf === 'wantToRead')}
                   name='Wanting to Read'
                 />
                 <ListBooks
+                  updateBook={this.updateBook}
                   books={books.filter(book => book.shelf === 'read')}
                   name='Read'
                 />
@@ -49,7 +61,13 @@ class BooksApp extends Component {
             </div>
           </div>
         )}/>
-        <Route path='/search' component={SearchBooks}/>
+        <Route path='/search' render={() => (
+          <SearchBooks
+            updateBook={this.updateBook}
+            books={books}
+            name='Search'
+          />
+        )}/>
       </div>
     )
   }

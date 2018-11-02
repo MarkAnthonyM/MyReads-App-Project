@@ -1,8 +1,13 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import * as BooksAPI from './BooksAPI'
 
 class SearchBooks extends Component {
+  static propTypes = {
+    books: PropTypes.array.isRequired
+  }
+
   state = {
     searchBooks: [],
     query: ''
@@ -18,6 +23,13 @@ class SearchBooks extends Component {
         if (books === undefined || books.error) {
           this.setState({ searchBooks: [] })
         } else {
+          books.forEach(book => {
+            this.props.books.forEach(shelfBook => {
+              if (shelfBook.id === book.id) {
+                book.shelf = shelfBook.shelf
+              }
+            })
+          })
           this.setState({ searchBooks: books })
         }
       }).catch((error) => {
@@ -55,7 +67,7 @@ class SearchBooks extends Component {
                       style={{ width: 128, height: 193, backgroundImage: `url(${(book.imageLinks && book.imageLinks.thumbnail) || ''})`}}>
                     </div>
                     <div className="book-shelf-changer">
-                      <select>
+                      <select value={book.shelf || 'none'} onChange={(event) => this.props.updateBook(book, event.target.value)}>
                         <option value="move" disabled>Move to...</option>
                         <option value="currentlyReading">Currently Reading</option>
                         <option value="wantToRead">Want to Read</option>
