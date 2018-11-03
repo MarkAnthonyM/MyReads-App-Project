@@ -13,23 +13,30 @@ class SearchBooks extends Component {
     query: ''
   }
 
+  //This method sets query state based on user-search input, and makes a call back to searchDatabase method.
   updateQuery(query) {
     this.setState({ query: query }, this.searchDatabase)
   }
 
+  //This method matches shelf state of backend database with books currently on front-end shelf
+  updateShelfState(booksDatabase) {
+    booksDatabase.forEach(book => {
+      this.props.books.forEach(shelfBook => {
+        if (shelfBook.id === book.id) {
+          book.shelf = shelfBook.shelf
+        }
+      })
+    })
+  }
+
+  //This method searches book backend using query state, updates backend response if required, and sets searchBooks state.
   searchDatabase() {
     if (this.state.query) {
       BooksAPI.search(this.state.query.trim()).then((books) => {
         if (books === undefined || books.error) {
           this.setState({ searchBooks: [] })
         } else {
-          books.forEach(book => {
-            this.props.books.forEach(shelfBook => {
-              if (shelfBook.id === book.id) {
-                book.shelf = shelfBook.shelf
-              }
-            })
-          })
+          this.updateShelfState(books)
           this.setState({ searchBooks: books })
         }
       }).catch((error) => {
