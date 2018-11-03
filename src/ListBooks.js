@@ -8,13 +8,14 @@ class ListBooks extends Component {
   }
 
   render() {
+    const { books, name } = this.props
 
     return (
       <div className='bookshelf'>
-        <h2 className='bookshelf-title'>{this.props.name}</h2>
+        <h2 className='bookshelf-title'>{name}</h2>
         <div className='bookshelf-books'>
           <ol className='books-grid'>
-            {this.props.books.map((book) => (
+            {books.map((book) => (
               <li key={book.id}>
                 <div className='book'>
                   <div className='book-top'>

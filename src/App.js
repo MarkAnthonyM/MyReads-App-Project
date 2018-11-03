@@ -10,12 +10,14 @@ class BooksApp extends Component {
     books: []
   }
 
+  //This method calls getAll function on backend and populates books state with promise response
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
       this.setState({ books })
     })
   }
 
+  //This method updates shelf status of books state items and renders new shelf state
   updateBook = (book, shelf) => {
     BooksAPI.update(book, shelf).then((updatedBook) => {
       book.shelf = shelf
